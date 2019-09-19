@@ -27,18 +27,30 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'vinaykumar.vk2007@gmail.com'
+EMAIL_HOST_PASSWORD = 'jaddu@55555'
+EMAIL_PORT = 587
 
-# Application definition
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [	
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+	'django.contrib.sites',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-	'casino', # new
+    'django.contrib.staticfiles',	
+	'crispy_forms',
+	'casino',
+	'sendemail',	
+	'accounts',	
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,9 +60,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	
 ]
 
 ROOT_URLCONF = 'vinaycms.urls'
+
+
 
 TEMPLATES = [
     {
@@ -68,9 +84,15 @@ TEMPLATES = [
     },
 ]
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 WSGI_APPLICATION = 'vinaycms.wsgi.application'
 
+AUTHENTICATION_BACKENDS = ( 
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -115,10 +137,20 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 5
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
+
+DEFAULT_FROM_EMAIL='vinaykumar.vk2007@gmail.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
